@@ -21,12 +21,14 @@
       
       
     <div class="sidebar">
-        <i class="fa fa-align-justify"></i>
-        <span>best Sights in Egypt</span>
-        <input placeholder="filter" id="filter" data-bind="textInput: Uinput , event: {keyup: searchPlaces}" />
-        <ul data-bind="foreach: placesList">
-            <li data-bind="text: name  "></li>
-        </ul>
+        <i class="fa fa-align-justify" data-bind="click: toggleSideBar "></i>
+        <div class="sidebarContent">
+          <span>best Sights in Egypt</span>
+          <input placeholder="filter" id="filter" data-bind="textInput: Uinput , event: {keyup: searchPlaces}" />
+          <ul data-bind="foreach: placesList">
+              <li data-bind="text: name "></li>
+          </ul>
+        </div>
     </div>
     <div id="map"></div>  
 <!--

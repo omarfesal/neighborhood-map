@@ -10,7 +10,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1
+    z-index: 1;
+    opacity: 1;
+
+}
+.sidebar:hover{
+    opacity: 1
 }
 
 
@@ -44,11 +49,25 @@
 
 .sidebar i{
     position: absolute;
-    right: 5px;
-    top: 5px;
-    font-size: 20px;
+    right: 6px;
+    top: 6px;
+    font-size: 28px;
     cursor: pointer;
-    
+}
+
+.close{
+    width: 26px;
+    height: 0;
+    background: #fff;
+    left: 106px;
+}
+
+.close:before{
+    content: "display list";
+    display: none;
+}
+.removeContent{
+    display: none;
 }
 
 

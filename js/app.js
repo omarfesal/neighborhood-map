@@ -59,7 +59,7 @@ var ViewModel = function(){
 
   // add places to observable array
     places.forEach(function(placeObj){
-    	self.placesList.push(placeObj);
+      self.placesList.push(placeObj);
     });
 
 
@@ -79,7 +79,7 @@ var ViewModel = function(){
       $(".sidebarContent").addClass("removeContent");
 
     }
-  }           
+  };      
 
 
   // fillter for places    
@@ -103,11 +103,11 @@ var ViewModel = function(){
                displayMarkers(self.placesList());
            }
        });
-    }
+    };
 
 
     
-}
+};
 
 function displayMarkers(Placess){
 
@@ -194,9 +194,7 @@ function DisplayDetails(marker,infowindow,wikiName){
 }
     
 ko.applyBindings( new ViewModel() );
-
-
-
+    
 
 
 

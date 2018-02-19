@@ -50,7 +50,6 @@ var places = [
 var map,markers = [];
 
 
-
 var ViewModel = function(){
     var self = this;
     
@@ -62,14 +61,21 @@ var ViewModel = function(){
       self.placesList.push(placeObj);
     });
 
+  // dispaly marker
+
+  self.displayLiMarker = function(place){
+    var marker = makeMarker(place);
+    markers.push(marker);
+    DisplayDetails(marker,place.wikiName);
+  };
+
+
 
   // toggle sideBar
 
   self.toggleSideBar = function(){
     console.log('test');
     var sidebar = $("div.sidebar");
-    // console.dir(sidebar);
-    // sidebar.css("display","none");
 
     if(sidebar.hasClass("close")){
       $(sidebar).removeClass("close");
@@ -97,28 +103,22 @@ var ViewModel = function(){
         markers[x].setMap(null);
       }
 
-       places.forEach(function(place){
+      places.forEach(function(place){
            if(place.name.toLowerCase().indexOf(placeName) !== -1){
                self.placesList.push(place);
-               displayMarkers(self.placesList());
+               displayMarkers(place);
            }
        });
     };
 
-
-    
 };
 
-function displayMarkers(Placess){
 
-  var largeInfowindow = new google.maps.InfoWindow();
 
-  for(var x= 0 ; x < Placess.length ; x++)
-  {
-
-    var position =  Placess[x].location;
-    var name = Placess[x].name;
-    var wikiName = Placess[x].wikiName;
+function makeMarker(place){
+    var position =  place.location;
+    var name = place.name;
+    var wikiName = place.wikiName;
 
     var marker = new google.maps.Marker
     ({
@@ -126,20 +126,21 @@ function displayMarkers(Placess){
       map: map,
       title: name,
       animation: google.maps.Animation.DROP,
-      id: x,
       wikiName: wikiName
     });
 
+    return marker;
+}
+
+
+function displayMarkers(place){
+
+    var marker = makeMarker(place);
     markers.push(marker);
-    marker.setMap(map);
 
-    marker.addListener('click', function()
-    {
-
-      DisplayDetails(this,largeInfowindow,this.wikiName);
+    marker.addListener('click', function(){
+      DisplayDetails(this,this.wikiName);
     });
-  }    
-
 }
 
 
@@ -154,12 +155,17 @@ function initMap() {
     center: {lat: 25.7070,lng: 32.5900}
   });
 
-  displayMarkers(places);
+  places.forEach(function(place){
+      displayMarkers(place);
+   });
+
   
 }
 
 
-function DisplayDetails(marker,infowindow,wikiName){
+function DisplayDetails(marker,wikiName){
+    var infowindow = new google.maps.InfoWindow();
+
     $.ajax({
     url: 'https://en.wikipedia.org/w/api.php',
     data: {
@@ -194,32 +200,3 @@ function DisplayDetails(marker,infowindow,wikiName){
 }
     
 ko.applyBindings( new ViewModel() );
-    
-
-
-
-//    
-//function getAreaMetaInfo_Wikipedia(wikiName) {
-//  $.ajax({
-//    url: 'https://en.wikipedia.org/w/api.php',
-//    data: {
-//        action:'parse',
-//        format:'json',
-//        prop: 'text',
-//        page: wikiName,
-//    },
-//    dataType:'jsonp', 
-//    success: function(data) {
-//    $(".loader").css("display","none");
-//    $(popup).append($(data.parse.text['*']).find("p:first"));
-//    $(popup).append("<a href='http://en.wikipedia.org/wiki/"+wikiName+"' target='wikipedia'>Read more on Wikipedia</a>");
-//    }
-//      
-//  });
-//}
-//    
-// getAreaMetaInfo_Wikipedia("karnak");
-//    
-//    
-    
-    

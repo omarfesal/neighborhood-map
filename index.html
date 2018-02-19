@@ -26,7 +26,7 @@
           <span>best Sights in Egypt</span>
           <input placeholder="filter" id="filter" data-bind="textInput: Uinput , event: {keyup: searchPlaces}" />
           <ul data-bind="foreach: placesList">
-              <li data-bind="text: name "></li>
+              <li data-bind="text: name, click: $parent.displayLiMarker "></li>
           </ul>
         </div>
     </div>

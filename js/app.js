@@ -64,9 +64,8 @@ var ViewModel = function(){
   // dispaly marker
 
   self.displayLiMarker = function(place){
-    var marker = makeMarker(place);
-    markers.push(marker);
-    DisplayDetails(marker,place.wikiName);
+    markers.push(place.marker);
+    DisplayDetails(place.marker,place.wikiName);
   };
 
 
@@ -129,15 +128,15 @@ function makeMarker(place){
       wikiName: wikiName
     });
 
-    return marker;
+    place.marker = marker;
+
+    return place.marker;
 }
 
 
 function displayMarkers(place){
-
     var marker = makeMarker(place);
     markers.push(marker);
-
     marker.addListener('click', function(){
       DisplayDetails(this,this.wikiName);
     });

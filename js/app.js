@@ -112,8 +112,6 @@ var ViewModel = function(){
 
 };
 
-
-
 function makeMarker(place){
     var position =  place.location;
     var name = place.name;
@@ -123,15 +121,30 @@ function makeMarker(place){
     ({
       position: position,
       map: map,
+      draggable: true,
       title: name,
       animation: google.maps.Animation.DROP,
       wikiName: wikiName
     });
+    // marker.addListener('click', function(marker){
+    //   toggleBounce(place.marker);
+    // });
 
     place.marker = marker;
 
     return place.marker;
 }
+
+function toggleBounce(marker) {
+  console.dir(marker);
+  if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+  }
+  else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}
+
 
 
 function displayMarkers(place){
@@ -162,8 +175,17 @@ function initMap() {
 }
 
 
-function DisplayDetails(marker,wikiName){
-    var infowindow = new google.maps.InfoWindow();
+function DisplayDetails(marker,wikiName){ 
+    toggleBounce(marker);
+    if(marker.infowindow === undefined){
+      var infowindow = new google.maps.InfoWindow();
+      marker.infowindow = infowindow; 
+    }else {
+      marker.infowindow.close();
+      marker.infowindow.setMarker = null;
+      marker.infowindow = undefined;
+      return;
+    } 
 
     $.ajax({
     url: 'https://en.wikipedia.org/w/api.php',
@@ -184,10 +206,15 @@ function DisplayDetails(marker,wikiName){
         infowindow.setContent(contentdata);
         infowindow.open(map, marker);
         infowindow.addListener('closeclick',function(){
-        infowindow.setMarker = null;
+          toggleBounce(marker);
+          marker.infowindow = undefined;
+          infowindow.setMarker = null;
         });
 
       }       
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert("sorry there is a proplem with getting details : " +errorThrown);
     }
   }).fail(function(){
         
@@ -196,6 +223,13 @@ function DisplayDetails(marker,wikiName){
         }); 
     
     });
+}
+
+
+// loading map error
+
+function mapError(){
+  alert("error on loading map");
 }
     
 ko.applyBindings( new ViewModel() );

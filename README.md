@@ -1,3 +1,4 @@
+
 # Neighborhood Map 🌍
 
 Application that display best sights in luxor city (Egypt).
@@ -8,7 +9,8 @@ Application use Wikipedia(mediawiki) Api to get details about sights.
 ## Install
 
  1. clone/download the repo
- 2. run index.html
-
-
+ 2. install python 2/3 
+ 3. Run application on server:  
+     - Python 3: python -m http.server 8080.
+     - Python 2: python -m SimpleHTTPServer 8080
  
